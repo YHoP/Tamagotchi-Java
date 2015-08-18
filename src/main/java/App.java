@@ -5,6 +5,9 @@ import static spark.Spark.*;
 import java.util.ArrayList;
 
 public class App {
+  private static String petName;
+  static Tamagotchi myTamagotchi;
+
   public static void main(String[] args) {
   staticFileLocation("/public");
   String layout = "templates/layout.vtl";
@@ -12,39 +15,40 @@ public class App {
   get("/", (request, response) -> {
     HashMap<String, Object> model = new HashMap<String, Object>();
     model.put("template", "templates/home.vtl");
-    model.put("petName", request.session().attribute("petName"));
-
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
 
   post("/tamagotchi", (request, response) -> {
     HashMap<String, Object> model = new HashMap<String, Object>();
-    model.put("template", "templates/tamagotchi.vtl");
-    model.put("petName", request.session().attribute("petName"));
 
+    if(petName == null){
     // getting user input name and assign to a String
-    String petName = request.queryParams("petName");
+    petName = request.queryParams("petName");
+    myTamagotchi = new Tamagotchi(petName);
+    }
 
-    // pass the pet name into our method
-    Tamagotchi myTamagotchi = new Tamagotchi(petName);
+    model.put("myTamagotchi", myTamagotchi);
+    // set attribute value to session
+    request.session().attribute("myTamagotchi", myTamagotchi);
 
     String actionBtn = request.queryParams("action");
     String message = "";
 
-    if(actionBtn == "Feed"){
+    if(actionBtn == "feed"){
       myTamagotchi.feed();
       message = "Thank you for feeding " + petName + ".\n";
-    } else if (actionBtn == "Play") {
+    } else if (actionBtn == "play") {
       myTamagotchi.play();
       message = "Thank you for playing with " + petName + ".\n";
-    } else if (actionBtn == "Sleep") {
+    } else if (actionBtn == "sleep") {
       myTamagotchi.sleep();
       message = "Thank you for putting " + petName + " to sleep.\n";
     } else {
-      message = "Your code is broken! + \n";
+      message = "";
     }
     model.put("message", message);
 
+    model.put("template", "templates/tamagotchi.vtl");
     return new ModelAndView(model, layout);
   },  new VelocityTemplateEngine());
  }

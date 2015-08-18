@@ -4,7 +4,7 @@
   <h1>Tamagotchi</h1>
   <br>
 
-  <h2>Your pet's name is : $petName</h2>
+  <h2>Your pet's name is : $myTamagotchi.getName()</h2>
   <br>
   <h3>Your tamagotchi status:</h3>
   <br>
@@ -13,19 +13,31 @@
 
 <br>
 
-<div class="btn-group">
-  <button type="button" id="action" name="action" value="Feed" class="btn btn-primary">Feed me!<button>
-  <button type="button" id="action" name="action" value="Play" class="btn btn-warning">Play with me!<button>
-  <button type="button" id="action" name="action" value="Sleep" class="btn btn-danger">Let me sleep!<button>
-</div>
+<div>
+  <!-- <form action="/update-status" method="post"> -->
+  <form action="/tamagotchi" method="post">
+    <input type='hidden' value='feed' name='action'>
+    <button type="submit" id="action" class="btn btn-primary">Feed me!</button>
+  </form>
 
-<br>
+  <form action="/tamagotchi" method="post">
+    <input type='hidden' value='play' name='action'>
+    <button type="submit" id="action" class="btn btn-warning">Play with me!</button>
+  </form>
+
+  <form action="/tamagotchi" method="post">
+    <input type='hidden' value='sleep' name='action'>
+    <button type="submit" id="action" class="btn btn-danger">Let me sleep!</button>
+  </form>
+</div>
+<br><br>
 <div class="well">
-<h1>$message</h1>
+<h3>$message</h3>
 <br>
-  #if($myTamagotchiisAlive())
-  <h3>Yay! Your tamagotchi $petName is still alive!</h3>
+  #if($myTamagotchi.isAlive())
+    <h3>Yay! Your tamagotchi $myTamagotchi.getName() is still alive!</h3>
   #else
-  <h3>Sorry, your tamagotchi is not alive... :(</h3>
+    <h3>Sorry, your tamagotchi is not alive... :(</h3>
+  #end
 <br>
 </div>

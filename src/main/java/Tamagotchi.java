@@ -29,6 +29,10 @@ public class Tamagotchi {
     init = false;
   }
 
+  public String getName(){
+    return mPetName;
+  }
+
 
   public boolean isAlive(){
     if(mFoodLevel <= 0 || mPlayLevel <= 0 || mSleepLevel <= 0){
