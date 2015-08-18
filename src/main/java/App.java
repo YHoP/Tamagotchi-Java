@@ -10,32 +10,41 @@ public class App {
   String layout = "templates/layout.vtl";
 
   get("/", (request, response) -> {
-  HashMap<String, Object> model = new HashMap<String, Object>();
-  model.put("placesList", request.session().attribute("placesList"));
+    HashMap<String, Object> model = new HashMap<String, Object>();
+    model.put("template", "templates/home.vtl");
+    model.put("petName", request.session().attribute("petName"));
 
-  model.put("template", "templates/index.vtl");
-  return new ModelAndView(model, layout);
+    return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
 
-  post("/places", (request, response) -> {
+  post("/tamagotchi", (request, response) -> {
     HashMap<String, Object> model = new HashMap<String, Object>();
-    ArrayList<Places> placesList = request.session().attribute("placesList");
+    model.put("template", "templates/tamagotchi.vtl");
+    model.put("petName", request.session().attribute("petName"));
 
-    if (placesList == null) {
-      placesList = new ArrayList<Places>();
-      request.session().attribute("placesList", placesList);
+    // getting user input name and assign to a String
+    String petName = request.queryParams("petName");
+
+    // pass the pet name into our method
+    Tamagotchi myTamagotchi = new Tamagotchi(petName);
+
+    String actionBtn = request.queryParams("action");
+    String message = "";
+
+    if(actionBtn == "Feed"){
+      myTamagotchi.feed();
+      message = "Thank you for feeding " + petName + ".\n";
+    } else if (actionBtn == "Play") {
+      myTamagotchi.play();
+      message = "Thank you for playing with " + petName + ".\n";
+    } else if (actionBtn == "Sleep") {
+      myTamagotchi.sleep();
+      message = "Thank you for putting " + petName + " to sleep.\n";
+    } else {
+      message = "Your code is broken! + \n";
     }
+    model.put("message", message);
 
-    // getting user input info and assign to a String
-    String description = request.queryParams("description");
-
-    // pass the string value into our method
-    Places myPlaces = new Places(description);
-
-    //adding the value of each "description" into the array
-    placesList.add(myPlaces);
-
-    model.put("template", "templates/success.vtl");
     return new ModelAndView(model, layout);
   },  new VelocityTemplateEngine());
  }

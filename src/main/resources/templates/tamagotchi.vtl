@@ -1,0 +1,31 @@
+<br>
+<div class="well">
+
+  <h1>Tamagotchi</h1>
+  <br>
+
+  <h2>Your pet's name is : $petName</h2>
+  <br>
+  <h3>Your tamagotchi status:</h3>
+  <br>
+  <h3>$myTamagotchi.getPetStatus()</h3>
+</div>
+
+<br>
+
+<div class="btn-group">
+  <button type="button" id="action" name="action" value="Feed" class="btn btn-primary">Feed me!<button>
+  <button type="button" id="action" name="action" value="Play" class="btn btn-warning">Play with me!<button>
+  <button type="button" id="action" name="action" value="Sleep" class="btn btn-danger">Let me sleep!<button>
+</div>
+
+<br>
+<div class="well">
+<h1>$message</h1>
+<br>
+  #if($myTamagotchiisAlive())
+  <h3>Yay! Your tamagotchi $petName is still alive!</h3>
+  #else
+  <h3>Sorry, your tamagotchi is not alive... :(</h3>
+<br>
+</div>

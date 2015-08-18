@@ -1,0 +1,23 @@
+<br>
+<div class="well">
+<h1>Tamagotchi</h1>
+</div>
+
+#if($petName)
+<div class="well">
+  <h2>Your pet's name is : $petName</h2>
+  <br>
+  <h3>Your tamagotchi status:</h3>
+  <br>
+  <h3>$myTamagotchi.getPetStatus()</h3>
+</div>
+
+#else
+<div class="well">
+ <form action="/tamagotchi" method="post">
+   <label for="petName">Create your Tamagochi and give it a name: </label><br>
+   <input id="petName" name="petName" type="test"><br><br>
+   <button type="submit" class="btn btn-success">Create tamagotchi!</button>
+ </form>
+</div>
+ #end
