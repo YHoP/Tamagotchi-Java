@@ -16,9 +16,9 @@ public class Tamagotchi {
     }
 
   public String getPetStatus(){
-    mPetStatus = "Food level: " + mFoodLevel + "\n" +
-                "Play level: " + mPlayLevel + "\n" +
-                "Sleep level: " + mSleepLevel + "\n";
+    mPetStatus = "Food level: " + mFoodLevel + "<br>" +
+                "Play level: " + mPlayLevel + "<br>" +
+                "Sleep level: " + mSleepLevel + "<br>";
     return mPetStatus;
   }
 
