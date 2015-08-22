@@ -1,36 +1,26 @@
-<br>
 <div class="well">
-
-  <h1>Tamagotchi</h1>
+<h1>Your tamagotchi is : $petName</h1>
   <br>
-
-  <h2>Your pet's name is : $myTamagotchi.getName()</h2>
-  <br>
-  <h3>Your tamagotchi status:</h3>
-  <br>
-  <p>$myTamagotchi.getPetStatus()</p>
-</div>
-
-<br>
+  <h4>Status:</h4>
+  <h4>$myTamagotchi.getPetStatus()</h4>
 
 <div class="form-group">
-  <!-- <form action="/update-status" method="post"> -->
-  <form action="/status" method="get">
-    <input type="radio" name="action" value="feed">Feed $myTamagotchi.getName()</br>
-    <input type="radio" name="action" value="play">Play with $myTamagotchi.getName()</br>
-    <input type="radio" name="action" value="sleep">Let $myTamagotchi.getName() get some sleep.</br>
+  <form action="/tamagotchi" method="post">
+    <label for="action"> Please choose an action: </label></br>
+    <input type="radio" name="action" value="feed"> Feed $myTamagotchi.getName()</br>
+    <input type="radio" name="action" value="play"> Play with $myTamagotchi.getName()</br>
+    <input type="radio" name="action" value="sleep"> Let $myTamagotchi.getName() get some sleep.</br>
+    <br>
     <button type="submit" class="btn btn-danger">Take action!</button>
   </form>
 </div>
-<br><br>
-<div class="well">
+</br>
 <h3>$message</h3>
 <br>
   #if($myTamagotchi.isAlive())
-    <h3>Your tamagotchi $myTamagotchi.getName() is still alive!</h3>
+    <h3>$myTamagotchi.getName() is still alive!</h3>
   #else
-    <h3>Sorry, your tamagotchi is not alive... :(</h3>
+    <h3>Sorry, $myTamagotchi.getName() is DEAD. :(</h3>
   #end
 <br>
-
 </div>

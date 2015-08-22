@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class App {
   private static String petName, message;
-  static Tamagotchi myTamagotchi;
+  private static Tamagotchi myTamagotchi = new Tamagotchi(petName);
 
   public static void main(String[] args) {
   staticFileLocation("/public");
@@ -14,6 +14,13 @@ public class App {
 
   get("/", (request, response) -> {
     HashMap<String, Object> model = new HashMap<String, Object>();
+
+    petName = request.queryParams("petName");
+    myTamagotchi = new Tamagotchi(petName);
+    request.session().attribute("petName", petName);
+    request.session().attribute("myTamagotchi", myTamagotchi);
+
+    model.put("myTamagotchi", myTamagotchi);
     model.put("template", "templates/home.vtl");
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
@@ -21,46 +28,56 @@ public class App {
   post("/tamagotchi", (request, response) -> {
     HashMap<String, Object> model = new HashMap<String, Object>();
 
-    if(petName == null){
-    // getting user input name and assign to a String
-    petName = request.queryParams("petName");
-    myTamagotchi = new Tamagotchi(petName);
+    if (petName == null){
+      petName = request.queryParams("petName");
+      myTamagotchi = new Tamagotchi(petName);
+      request.session().attribute("petName", petName);
+      request.session().attribute("myTamagotchi", myTamagotchi);
     }
 
-    model.put("myTamagotchi", myTamagotchi);
-    // set attribute value to session
-    request.session().attribute("myTamagotchi", myTamagotchi);
+    // petName = request.queryParams("petName");
+    // Tamagotchi myTamagotchi = new Tamagotchi(petName);
+    //
+    // model.put("myTamagotchi", myTamagotchi);
+    // // set attribute value to session
+    // request.session().attribute("myTamagotchi", myTamagotchi);
+
+    // request.session().attribute("petName", petName);
+    // request.session().attribute("myTamagotchi", myTamagotchi);
 
     String actionBtn = request.queryParams("action");
 
-    if(actionBtn == "feed"){
+    if("feed".equals(actionBtn)){
       myTamagotchi.feed();
       message = "Thank you for feeding " + petName + ".\n";
-    } else if (actionBtn == "play") {
+    } else if ("play".equals(actionBtn)) {
       myTamagotchi.play();
       message = "Thank you for playing with " + petName + ".\n";
-    } else if (actionBtn == "sleep") {
+    } else if ("sleep".equals(actionBtn)) {
       myTamagotchi.sleep();
       message = "Thank you for putting " + petName + " to sleep.\n";
     } else {
-      message = "";
+      message = "Your code has issue";
     }
 
+    model.put("petName", petName);
+    model.put("message", message);
+    model.put("myTamagotchi", myTamagotchi);
     model.put("template", "templates/tamagotchi.vtl");
     return new ModelAndView(model, layout);
   },  new VelocityTemplateEngine());
 
-  get("/status", (request, response) -> {
-    HashMap<String, Object> model = new HashMap<String, Object>();
-
-    model.put("myTamagotchi", myTamagotchi);
-    // set attribute value to session
-    request.session().attribute("myTamagotchi", myTamagotchi);
-
-    model.put("message", message);
-
-    model.put("template", "templates/status.vtl");
-    return new ModelAndView(model, layout);
-  }, new VelocityTemplateEngine());
+  // post("/", (request, response) -> {
+  //   HashMap<String, Object> model = new HashMap<String, Object>();
+  //
+  //   model.put("myTamagotchi", myTamagotchi);
+  //   // set attribute value to session
+  //   request.session().attribute("myTamagotchi", myTamagotchi);
+  //
+  //   model.put("message", message);
+  //
+  //   model.put("template", "templates/tamagotchi.vtl");
+  //   return new ModelAndView(model, layout);
+  // }, new VelocityTemplateEngine());
  }
 }
