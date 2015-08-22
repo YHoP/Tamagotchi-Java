@@ -35,18 +35,7 @@ public class App {
       request.session().attribute("myTamagotchi", myTamagotchi);
     }
 
-    // petName = request.queryParams("petName");
-    // Tamagotchi myTamagotchi = new Tamagotchi(petName);
-    //
-    // model.put("myTamagotchi", myTamagotchi);
-    // // set attribute value to session
-    // request.session().attribute("myTamagotchi", myTamagotchi);
-
-    // request.session().attribute("petName", petName);
-    // request.session().attribute("myTamagotchi", myTamagotchi);
-
     String actionBtn = request.queryParams("action");
-
     if("feed".equals(actionBtn)){
       myTamagotchi.feed();
       message = "Thank you for feeding " + petName + ".\n";
@@ -57,7 +46,7 @@ public class App {
       myTamagotchi.sleep();
       message = "Thank you for putting " + petName + " to sleep.\n";
     } else {
-      message = "Your code has issue";
+      message = petName + " needs your attention!";
     }
 
     model.put("petName", petName);
@@ -67,17 +56,5 @@ public class App {
     return new ModelAndView(model, layout);
   },  new VelocityTemplateEngine());
 
-  // post("/", (request, response) -> {
-  //   HashMap<String, Object> model = new HashMap<String, Object>();
-  //
-  //   model.put("myTamagotchi", myTamagotchi);
-  //   // set attribute value to session
-  //   request.session().attribute("myTamagotchi", myTamagotchi);
-  //
-  //   model.put("message", message);
-  //
-  //   model.put("template", "templates/tamagotchi.vtl");
-  //   return new ModelAndView(model, layout);
-  // }, new VelocityTemplateEngine());
  }
 }
